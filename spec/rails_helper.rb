@@ -66,4 +66,10 @@ RSpec.configure do |config|
   RSpec.configure do |config|
     config.include FactoryBot::Syntax::Methods
   end
+
+  config.before(:suite) do
+    # Compile our JavaScript
+    `bin/webpack`
+    # Load our JavaScript
+  end
 end

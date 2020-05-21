@@ -3,10 +3,21 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-require("@rails/ujs").start()
-require("turbolinks").start()
-require("@rails/activestorage").start()
-require("channels")
+import ReactDOM from "react-dom";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import { SongsPage } from "../pages/songs_page";
+import { App } from "../app";
+
+require("@rails/ujs").start();
+require("turbolinks").start();
+require("@rails/activestorage").start();
+require("channels");
 
 
 // Uncomment to copy all static images under ../images to the output folder and reference
@@ -15,3 +26,12 @@ require("channels")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  ReactDOM.render(
+    <App/>,
+    document.body.appendChild(document.createElement('div')),
+  );
+});
