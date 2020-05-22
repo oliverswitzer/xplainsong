@@ -21,7 +21,6 @@ require("channels");
 // const imagePath = (name) => images(name, true)
 
 
-
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <App/>,

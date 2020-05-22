@@ -16,6 +16,7 @@
     "react-dom": "^16.13.1",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
+    "swr": "^0.2.2",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",
