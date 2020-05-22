@@ -4,3 +4,8 @@
 require_relative 'config/application'
 
 Rails.application.load_tasks
+
+desc 'Start the server and front end webpack dev server'
+task :start do
+  sh 'bundle exec foreman start -f Procfile.dev'
+end
