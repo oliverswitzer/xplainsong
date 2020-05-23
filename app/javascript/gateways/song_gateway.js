@@ -9,5 +9,9 @@ export class SongGateway {
     const response = await axios.get(this.CACHE_KEYS.all);
 
     return response.data;
+  };
+
+  static create = async ({ title }) => {
+    return await axios.post('/songs', { title })
   }
 }

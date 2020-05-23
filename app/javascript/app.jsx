@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Switch, Redirect } from "react-router-dom";
 import { SongsPage } from "./pages/songs_page";
 import React from "react";
 import Container from "@material-ui/core/Container";
@@ -18,6 +18,7 @@ export const App = () => (
         <Route path="/songs">
           <SongsPage />
         </Route>
+        <Redirect from="/" to="/songs" exact/>
       </Switch>
     </Container>
   </Router>

@@ -1,23 +1,13 @@
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import React, { useState } from "react";
-import axios from "axios";
+import { SongGateway } from "../gateways/song_gateway";
 
 export const CreateSongForm = ({ onSubmit }) => {
   const [formState, setFormState] = useState({ title: '' });
 
   const onSongSubmit = async () => {
-    let options = {
-      url: '/api/v1/songs',
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8'
-      },
-      body: { formState }
-    };
-
-    await axios(options);
+    await SongGateway.create({ title: formState.title });
 
     onSubmit()
   };
