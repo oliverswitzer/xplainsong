@@ -5,12 +5,9 @@ export class SongGateway {
     all: '/songs'
   };
 
-  static all = async () => {
-    const response = await axios.get(CACHE_KEYS.all);
+  static all = async (f) => {
+    const response = await axios.get(this.CACHE_KEYS.all);
 
-    console.log('yo');
-    console.log(response);
-
-    return response;
+    return response.data;
   }
 }
