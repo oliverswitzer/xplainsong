@@ -11,7 +11,7 @@ export const SongsPage = () => {
 
   const { data: songs, mutate: refreshSongs } = useSWR(SongGateway.CACHE_KEYS.all, SongGateway.all);
 
-  const onSumbit = async () => {
+  const onSubmit = async () => {
     await refreshSongs();
     setIsModalOpen(false)
   };
@@ -25,7 +25,7 @@ export const SongsPage = () => {
 
         <Modal open={isModalOpen}>
           <>
-            <CreateSongForm onSubmit={onSumbit}/>
+            <CreateSongForm onSubmit={onSubmit}/>
           </>
         </Modal>
       </>
