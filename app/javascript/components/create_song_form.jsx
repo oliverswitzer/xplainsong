@@ -14,7 +14,6 @@ export const CreateSongForm = ({ onSubmit }) => {
 
   return (
     <div style={{ backgroundColor: 'white', textAlign: 'center' }}>
-      <h1>New Song</h1>
       <TextField id="song-title" label="Title"
                  value={formState.title}
                  onChange={e => setFormState({ ...formState, title: e.target.value })}/>
