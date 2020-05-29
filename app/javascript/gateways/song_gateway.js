@@ -11,7 +11,14 @@ export class SongGateway {
     return response.data;
   };
 
-  static create = async ({ title }) => {
-    return await axios.post('/songs', { title })
+  static create = async ({ title, stems }) => {
+    const formData = new FormData();
+
+    formData.append('title', title);
+    Array.from(stems).forEach(stem => {
+      formData.append('stems[]', stem);
+    });
+
+    return await axios.post('/songs', formData)
   }
 }
