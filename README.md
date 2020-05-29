@@ -16,4 +16,7 @@ Or, you can manually run both in separate terminals
 
 # Running tests
 
-`bundle exec rspec` to run all tests
+`bundle exec rake test` to run all tests, or to run front end and backend tests separately
+
+- Frontend: `yarn test`
+- Backend: `bundle exec rspec`
