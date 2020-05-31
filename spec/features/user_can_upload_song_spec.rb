@@ -9,7 +9,7 @@ RSpec.feature 'song creation', type: :feature do
     click_button 'Create new song'
 
     fill_in 'Title', with: 'My new song'
-    attach_file 'stems', file_fixture('test.mp3')
+    attach_file 'stems', [file_fixture('test.mp3'), file_fixture('test2.mp3')]
 
     click_button 'Save'
 
