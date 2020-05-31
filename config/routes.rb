@@ -7,5 +7,5 @@ Rails.application.routes.draw do
     end
   end
 
-  get '*path', to: 'application#index'
+  get '*path', to: 'application#index', constraints: { format: 'html' }
 end

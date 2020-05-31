@@ -1,6 +1,6 @@
 class Api::V1::SongsController < ActionController::API
   def index
-    render json: Song.all
+    render json: Song.with_attached_stems
   end
 
   def create

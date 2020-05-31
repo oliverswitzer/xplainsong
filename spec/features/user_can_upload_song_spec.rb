@@ -14,5 +14,6 @@ RSpec.feature 'song creation', type: :feature do
     click_button 'Save'
 
     expect(page).to have_selector '[data-test="title"]', text: 'My new song'
+    expect(page).to have_selector '[data-test="stem-count"]', text: '2'
   end
 end
