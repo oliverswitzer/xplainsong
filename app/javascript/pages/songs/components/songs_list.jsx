@@ -20,7 +20,7 @@ export const SongsList = ({ songs }) => (
           <TableCell>
             <span data-test="tracks">
               {song.tracks.map(track => (
-                <audio controls>
+                <audio key={track.id} controls>
                   <source src={track.url} type="audio/mp3"/>
                 </audio>
               ))}
