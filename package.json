@@ -21,6 +21,13 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "jest": "^26.0.1",
+    "prettier": "2.0.5",
     "webpack-dev-server": "^3.11.0"
+  },
+  "scripts": {
+    "test": "jest"
   }
 }

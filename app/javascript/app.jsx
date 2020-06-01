@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Link, Route, Switch, Redirect } from "react-router-dom";
-import { SongsPage } from "./pages/songs_page";
+import SongsPage from "./pages/songs/index";
 import React from "react";
 import Container from "@material-ui/core/Container";
 
