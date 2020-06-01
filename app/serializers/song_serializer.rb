@@ -1,11 +1,11 @@
 class SongSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
 
-  attributes :id, :title, :stems
+  attributes :id, :title, :tracks
 
-  def stems
-    object.stems.map do |stem|
-      { id: stem.id, url: stem.blob.service_url }
+  def tracks
+    object.tracks.map do |track|
+      { id: track.id, url: track.blob.service_url }
     end
   end
 end

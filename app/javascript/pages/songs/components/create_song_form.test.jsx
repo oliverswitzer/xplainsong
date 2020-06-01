@@ -33,7 +33,7 @@ describe('CreateSongForm', () => {
     it('calls SongGateway.create with the song data', () => {
       expect(SongGateway.create).toHaveBeenCalledWith({
         title: 'Some title',
-        stems: ['some.mp3']
+        tracks: ['some.mp3']
       })
     });
 

@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import { SongGateway } from "../../../gateways/song_gateway";
 
 export const CreateSongForm = ({ onSubmit }) => {
-  const [formState, setFormState] = useState({ title: "", stems: [] });
+  const [formState, setFormState] = useState({ title: "", tracks: [] });
 
   const onSongSubmit = async () => {
     await SongGateway.create(formState);
@@ -13,7 +13,7 @@ export const CreateSongForm = ({ onSubmit }) => {
   };
 
   const onStemFileChange = (e) => {
-    setFormState({ ...formState, stems: e.target.files })
+    setFormState({ ...formState, tracks: e.target.files })
   };
 
   return (
@@ -26,7 +26,7 @@ export const CreateSongForm = ({ onSubmit }) => {
         onChange={(e) => setFormState({ ...formState, title: e.target.value })}
       />
       <input
-        name="stems"
+        name="tracks"
         type="file"
         onChange={onStemFileChange}
         accept=".mp3"

@@ -1,3 +1,3 @@
 class Song < ApplicationRecord
-  has_many_attached :stems
+  has_many_attached :tracks
 end

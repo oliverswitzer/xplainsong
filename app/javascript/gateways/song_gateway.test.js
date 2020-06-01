@@ -8,7 +8,7 @@ describe("SongGateway", () => {
     it("calls axios to make network request to backend", () => {
       SongGateway.create({
         title: "some title",
-        stems: [new File([], "some.mp3"), new File([], "some-other.mp3")],
+        tracks: [new File([], "some.mp3"), new File([], "some-other.mp3")],
       });
 
       const axiosCall = axios.post.mock.calls[0];
@@ -16,8 +16,8 @@ describe("SongGateway", () => {
 
       const formData = axiosCall[1];
       expect(formData.get("title")).toEqual("some title");
-      expect(formData.getAll("stems[]")[0].name).toEqual("some.mp3");
-      expect(formData.getAll("stems[]")[1].name).toEqual("some-other.mp3");
+      expect(formData.getAll("tracks[]")[0].name).toEqual("some.mp3");
+      expect(formData.getAll("tracks[]")[1].name).toEqual("some-other.mp3");
     });
   });
 });
