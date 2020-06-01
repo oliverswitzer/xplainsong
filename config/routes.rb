@@ -7,5 +7,12 @@ Rails.application.routes.draw do
     end
   end
 
-  get '*path', to: 'application#index', constraints: { format: 'html' }
+  class NotAnAssetPathConstraint
+    def matches?(request)
+      request.url !~ /rails\/active_storage\/.*/
+    end
+  end
+
+  # Needed in order to let React Router do it's thing
+  get '*path', to: 'application#index', constraints: NotAnAssetPathConstraint.new
 end
