@@ -10,23 +10,14 @@ export const SongsList = ({ songs }) => (
     <TableHead>
       <TableRow>
         <TableCell>Title</TableCell>
-        <TableCell>Tracks</TableCell>
+        <TableCell>Track Count</TableCell>
       </TableRow>
     </TableHead>
     <TableBody>
       {songs.map(song => (
         <TableRow key={song.id}>
           <TableCell><span data-test="title">{song.title}</span></TableCell>
-          <TableCell>
-            <span data-test="tracks">
-              {song.tracks.map(track => (
-                <audio key={track.id} controls>
-                  <source src={track.url} type="audio/mp3"/>
-                </audio>
-              ))}
-
-            </span>
-          </TableCell>
+          <TableCell><span data-test="track-count">{song.tracks.length}</span></TableCell>
         </TableRow>
       ))}
     </TableBody>
