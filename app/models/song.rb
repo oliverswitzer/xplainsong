@@ -1,3 +1,3 @@
 class Song < ApplicationRecord
-  has_many_attached :tracks
+  has_many :tracks, autosave: true, dependent: :destroy
 end

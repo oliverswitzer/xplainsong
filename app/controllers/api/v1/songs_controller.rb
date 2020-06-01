@@ -1,13 +1,16 @@
 class Api::V1::SongsController < ActionController::API
   def index
-    render json: Song.with_attached_tracks
+    render json: Song.all.includes(:tracks)
   end
 
   def create
     Rails.logger.info params
 
     song = Song.new(title: params[:title])
-    song.tracks.attach(params[:tracks])
+    params[:tracks].each do |track_file|
+      track = song.tracks.build
+      track.audio.attach(track_file)
+    end
 
     return head :ok if song.save
 
