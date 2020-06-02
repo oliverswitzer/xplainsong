@@ -1,6 +1,10 @@
 class Api::V1::SongsController < ActionController::API
   def index
-    render json: Song.all.includes(:tracks)
+    render json: Song.includes(:tracks).all
+  end
+
+  def show
+    render json: Song.includes(tracks: [:audio_blob, :audio_attachment]).find(params[:id])
   end
 
   def create
@@ -8,7 +12,7 @@ class Api::V1::SongsController < ActionController::API
 
     song = Song.new(title: params[:title])
     params[:tracks].each do |track_file|
-      track = song.tracks.build
+      track = song.tracks.build(name: track_file.original_filename)
       track.audio.attach(track_file)
     end
 

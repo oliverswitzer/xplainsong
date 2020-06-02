@@ -15,5 +15,10 @@ RSpec.feature 'song creation', type: :feature do
 
     expect(page).to have_selector '[data-test="title"]', text: 'My new song'
     expect(page).to have_selector '[data-test="track-count"]', text: '2'
+
+    click_on 'My new song'
+
+    expect(page).to have_text 'My new song'
+    expect(page.all('.playlist-tracks > .channel-wrapper').size).to eq(2)
   end
 end

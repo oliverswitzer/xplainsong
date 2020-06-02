@@ -9,36 +9,41 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 
-
 export default () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data: songs, mutate: refreshSongs } = useSWR(SongGateway.CACHE_KEYS.all, SongGateway.all);
+  const { data: songs, mutate: refreshSongs } = useSWR(
+    SongGateway.CACHE_KEYS.all(),
+    SongGateway.all
+  );
 
   const onSubmit = async () => {
     await refreshSongs();
-    setIsModalOpen(false)
+    setIsModalOpen(false);
   };
 
-  return (
-    !songs ? 'Loading' : (
-      <>
-        <h1>Songs</h1>
-        <Button onClick={() => setIsModalOpen(true)}>Create new song</Button>
-        <SongsList songs={songs}/>
+  return !songs ? (
+    "Loading"
+  ) : (
+    <>
+      <h1>Songs</h1>
+      <Button onClick={() => setIsModalOpen(true)}>Create new song</Button>
+      <SongsList songs={songs} />
 
-        <Dialog fullWidth maxWidth='md' open={isModalOpen} onClose={() => setIsModalOpen(false) }>
-          <DialogTitle>New Song</DialogTitle>
-          <DialogContent>
-            <CreateSongForm onSubmit={onSubmit}/>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setIsModalOpen(false)}>
-              Close
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </>
-    )
-  )
+      <Dialog
+        fullWidth
+        maxWidth="md"
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      >
+        <DialogTitle>New Song</DialogTitle>
+        <DialogContent>
+          <CreateSongForm onSubmit={onSubmit} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setIsModalOpen(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
 };

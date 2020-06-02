@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Link, Route, Switch, Redirect } from "react-router-dom";
 import SongsPage from "./pages/songs/index";
+import SongPage from "./pages/song/index";
 import React from "react";
 import Container from "@material-ui/core/Container";
 
@@ -15,9 +16,8 @@ export const App = () => (
       </nav>
 
       <Switch>
-        <Route path="/songs">
-          <SongsPage />
-        </Route>
+        <Route path="/songs" exact component={SongsPage} />
+        <Route path="/songs/:songId" component={SongPage} />
         <Redirect from="/" to="/songs" exact/>
       </Switch>
     </Container>

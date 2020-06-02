@@ -1,12 +1,19 @@
-import { axios } from './support/axios'
+import { axios } from "./support/axios";
 
 export class SongGateway {
   static CACHE_KEYS = {
-    all: '/songs'
+    all: () => "/songs",
+    find: ({ songId }) => `/songs/${songId}`,
   };
 
-  static all = async (f) => {
-    const response = await axios.get(this.CACHE_KEYS.all);
+  static all = async () => {
+    const response = await axios.get(this.CACHE_KEYS.all());
+
+    return response.data;
+  };
+
+  static find = async ({ songId }) => {
+    const response = await axios.get(this.CACHE_KEYS.find({ songId }));
 
     return response.data;
   };
@@ -14,11 +21,11 @@ export class SongGateway {
   static create = async ({ title, tracks }) => {
     const formData = new FormData();
 
-    formData.append('title', title);
-    Array.from(tracks).forEach(track => {
-      formData.append('tracks[]', track);
+    formData.append("title", title);
+    Array.from(tracks).forEach((track) => {
+      formData.append("tracks[]", track);
     });
 
-    return await axios.post('/songs', formData)
-  }
+    return await axios.post("/songs", formData);
+  };
 }
