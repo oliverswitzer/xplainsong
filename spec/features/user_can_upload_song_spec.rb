@@ -15,5 +15,9 @@ RSpec.feature 'song creation', type: :feature do
 
     expect(page).to have_selector '[data-test="title"]', text: 'My new song'
     expect(page).to have_selector '[data-test="track-count"]', text: '2'
+
+    click_on 'My new song'
+
+    expect(page.all('[data-test="track"]').size).to eq(2)
   end
 end

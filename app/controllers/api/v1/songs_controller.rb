@@ -3,6 +3,10 @@ class Api::V1::SongsController < ActionController::API
     render json: Song.all.includes(:tracks)
   end
 
+  def show
+    render json: Song.includes(:tracks).find(params[:id])
+  end
+
   def create
     Rails.logger.info params
 

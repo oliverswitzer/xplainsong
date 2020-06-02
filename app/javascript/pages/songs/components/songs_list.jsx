@@ -4,6 +4,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const SongsList = ({ songs }) => (
   <Table stickyHeader aria-label="sticky table">
@@ -15,10 +16,10 @@ export const SongsList = ({ songs }) => (
     </TableHead>
     <TableBody>
       {songs.map(song => (
-        <TableRow key={song.id}>
-          <TableCell><span data-test="title">{song.title}</span></TableCell>
-          <TableCell><span data-test="track-count">{song.tracks.length}</span></TableCell>
-        </TableRow>
+          <TableRow key={song.id}>
+            <TableCell><Link to={`/songs/${song.id}`}><span data-test="title">{song.title}</span></Link></TableCell>
+            <TableCell><span data-test="track-count">{song.tracks.length}</span></TableCell>
+          </TableRow>
       ))}
     </TableBody>
   </Table>
