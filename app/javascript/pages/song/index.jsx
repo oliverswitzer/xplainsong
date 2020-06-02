@@ -1,6 +1,10 @@
 import { SongGateway } from "../../gateways/song_gateway";
-import React, { useEffect } from "react";
+import React from "react";
 import { useFetch } from "../../shared/hooks/use_fetch";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableBody from "@material-ui/core/TableBody";
 
 export default ({
   match: {
@@ -14,13 +18,24 @@ export default ({
   ) : (
     <>
       <h1>{song.title}</h1>
-      <div>
+      <TableHead>
+        <TableRow>
+          <TableCell>Title</TableCell>
+          <TableCell>Audio</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
         {song.tracks.map((track) => (
-          <audio data-test="track" key={track.id} controls>
-            <source src={track.url} />
-          </audio>
+          <TableRow key={song.id} data-test="track">
+            <TableCell>{track.name}</TableCell>
+            <TableCell>
+              <audio key={track.id} controls>
+                <source src={track.url} />
+              </audio>
+            </TableCell>
+          </TableRow>
         ))}
-      </div>
+      </TableBody>
     </>
   );
 };
