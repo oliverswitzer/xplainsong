@@ -5,7 +5,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
-import { Waveforms } from "./components/waveforms";
 
 export default ({
   match: {
@@ -19,7 +18,24 @@ export default ({
   ) : (
     <>
       <h1>{song.title}</h1>
-      <Waveforms tracks={song.tracks} />
+      <TableHead>
+        <TableRow>
+          <TableCell>Title</TableCell>
+          <TableCell>Audio</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {song.tracks.map((track) => (
+          <TableRow key={song.id} data-test="track">
+            <TableCell>{track.name}</TableCell>
+            <TableCell>
+              <audio key={track.id} controls>
+                <source src={track.url} />
+              </audio>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
     </>
   );
 };
