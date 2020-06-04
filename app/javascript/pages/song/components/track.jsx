@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import WaveSurfer from 'wavesurfer';
 
-export const Track = ({ track, play }) => {
+export const Track = ({ track, play, onTrackLoaded }) => {
   const containerClass = `waveform-${track.id}`;
 
   const [wavesurferInstance, setWavesurferInstance] = useState();
@@ -24,6 +24,14 @@ export const Track = ({ track, play }) => {
       !!play ? wavesurferInstance.play() : wavesurferInstance.stop();
     }
   }, [wavesurferInstance, play]);
+
+  useEffect(() => {
+    if(wavesurferInstance) {
+      wavesurferInstance.on('ready', () => {
+        onTrackLoaded()
+      })
+    }
+  }, [wavesurferInstance]);
 
   return (
     <>
