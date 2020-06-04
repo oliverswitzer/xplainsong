@@ -8,6 +8,8 @@ export const Track = ({ track, play }) => {
 
   useEffect(() => {
     const wavesurfer = WaveSurfer.create({
+      waveColor: '#65913b',
+      progressColor: '#7858a0',
       container: `.${containerClass}`,
       scrollParent: true
     });
