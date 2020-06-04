@@ -29,7 +29,7 @@ export const CreateSongForm = ({ onSubmit }) => {
         name="tracks"
         type="file"
         onChange={onStemFileChange}
-        accept=".mp3"
+        accept=".mp3,audio/*"
         multiple
       />
       <Button onClick={() => onSongSubmit()}>Save</Button>
