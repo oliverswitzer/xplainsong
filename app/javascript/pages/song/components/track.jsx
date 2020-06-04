@@ -1,23 +1,32 @@
 import React, { useEffect, useState } from "react";
 import WaveSurfer from 'wavesurfer';
 
-export const Track = ({ track }) => {
-  const [isLoading, setIsLoading] = useState(true);
+export const Track = ({ track, play }) => {
+  const containerClass = `waveform-${track.id}`;
+
+  const [wavesurferInstance, setWavesurferInstance] = useState();
 
   useEffect(() => {
     const wavesurfer = WaveSurfer.create({
-      container: '#waveform',
+      container: `.${containerClass}`,
       scrollParent: true
     });
 
-    wavesurfer.on('ready', () => setIsLoading(false));
+    setWavesurferInstance(wavesurfer);
 
     wavesurfer.load(track.url)
   }, []);
 
+  useEffect(() => {
+    if(wavesurferInstance) {
+      !!play ? wavesurferInstance.play() : wavesurferInstance.stop();
+    }
+  }, [wavesurferInstance, play]);
+
   return (
     <>
-      <div id="waveform"/>
+      <p>{track.name}</p>
+      <div className={containerClass}/>
     </>
   );
 };
