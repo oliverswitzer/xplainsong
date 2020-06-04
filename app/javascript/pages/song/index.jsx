@@ -2,6 +2,14 @@ import { SongGateway } from "../../gateways/song_gateway";
 import React, { useEffect, useState } from "react";
 import { useFetch } from "../../shared/hooks/use_fetch";
 import { Track } from "./components/track";
+import LinearProgress from "@material-ui/core/LinearProgress";
+
+function percentageOfLoadedTracks(trackStates, tracks) {
+  return (trackStates.filter((trackState) => trackState === "loaded")
+      .length /
+    tracks.length) *
+    100;
+}
 
 export default ({
   match: {
@@ -20,14 +28,24 @@ export default ({
     }
   }, [song]);
 
-  const handleOnTrackLoaded = (trackIndex) => {
-    trackStates[trackIndex] = "loaded";
-
-    if (trackStates.every((state) => state === "loaded")) {
+  useEffect(() => {
+    if (trackStates.length > 0 && trackStates.every((state) => state === "loaded")) {
       setShowTracks(true);
-    } else {
-      setTrackStates(trackStates);
     }
+  }, [trackStates]);
+
+  const handleOnTrackLoaded = (trackIndex) => {
+    // It is necessary to pass a function to setTrackStates so that we always
+    // have the latest version of trackStates. This was not happening by default,
+    // likely due to a stale closure reference to trackState whenever this function
+    // (handleOnTrackLoad) was called on each render.
+
+    setTrackStates(trackStates => {
+      const newTrackStates = [...trackStates];
+      newTrackStates[trackIndex] = 'loaded';
+
+      return newTrackStates
+    });
   };
 
   return (
@@ -35,16 +53,18 @@ export default ({
       <>
         <h1>{song.title}</h1>
 
-        { !showTracks && <h1>Loading tracks...</h1>}
+        {!showTracks && (
+          <LinearProgress
+            variant="determinate"
+            value={percentageOfLoadedTracks(trackStates, song.tracks)}
+          />
+        )}
         <div style={showTracks ? {} : { display: "none" }}>
           <button onClick={() => setIsPlaying(true)}>Play</button>
           <button onClick={() => setIsPlaying(false)}>Stop</button>
           <div>
             {song.tracks.map((track, trackIndex) => (
-              <div
-                key={track.id}
-                data-test="track"
-              >
+              <div key={track.id} data-test="track">
                 <Track
                   onTrackLoaded={() => handleOnTrackLoaded(trackIndex)}
                   play={isPlaying}
