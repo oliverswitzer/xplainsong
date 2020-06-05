@@ -19,6 +19,7 @@ export default ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [trackStates, setTrackStates] = useState([]);
   const [showTracks, setShowTracks] = useState(false);
+  const [playheadPosition, setPlayheadPosition] = useState(0);
 
   const song = useFetch(async () => await SongGateway.find({ songId }));
 
@@ -67,6 +68,8 @@ export default ({
               <div key={track.id} data-test="track">
                 <Track
                   onTrackLoaded={() => handleOnTrackLoaded(trackIndex)}
+                  playheadAt={playheadPosition}
+                  onSeek={setPlayheadPosition}
                   play={isPlaying}
                   track={track}
                 />
