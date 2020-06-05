@@ -26,6 +26,13 @@ FileUtils.chdir APP_ROOT do
   # end
 
   puts "\n== Preparing database =="
+
+  unless system('which postgres')
+    puts "\n --> Postgres is needed to run this application. Attempting to install with homebrew"
+
+    system!('brew install postgresql')
+  end
+
   system! 'bin/rails db:prepare'
 
   puts "\n== Removing old logs and tempfiles =="
