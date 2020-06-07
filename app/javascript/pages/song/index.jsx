@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useFetch } from "../../shared/hooks/use_fetch";
 import { Track } from "./components/track";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import {TrackController} from "./track_controller";
 
 function percentageOfLoadedTracks(trackStates, tracks) {
   return (trackStates.filter((trackState) => trackState === "loaded")
@@ -16,14 +15,14 @@ export default ({
   match: {
     params: { songId },
   },
-  trackController
+  songController
 }) => {
   const [trackStates, setTrackStates] = useState([]);
   const [showTracks, setShowTracks] = useState(false);
 
   useEffect(() => {
     return () => {
-      trackController.unsubscribe();
+      songController.unsubscribe();
     }
   }, [])
 
@@ -67,13 +66,13 @@ export default ({
           />
         )}
         <div style={showTracks ? {} : { display: "none" }}>
-          <button onClick={() => trackController.play()}>Play</button>
-          <button onClick={() => trackController.stop()}>Stop</button>
+          <button onClick={() => songController.play()}>Play</button>
+          <button onClick={() => songController.stop()}>Stop</button>
           <div>
             {song.tracks.map((track, trackIndex) => (
               <div key={track.id} data-test="track">
                 <Track
-                  trackController={trackController}
+                  songController={songController}
                   onTrackLoaded={() => handleOnTrackLoaded(trackIndex)}
                   track={track}
                 />
