@@ -1,11 +1,17 @@
 #!/usr/bin/env ruby
 APP_ROOT = File.expand_path('..', __dir__)
+
+def system!(*args)
+  system(*args) || abort("\n== Command #{args} failed ==")
+end
+
 Dir.chdir(APP_ROOT) do
   begin
     exec "yarnpkg", *ARGV
   rescue Errno::ENOENT
     $stderr.puts "Yarn executable was not detected in the system."
-    $stderr.puts "Download Yarn at https://yarnpkg.com/en/docs/install"
-    exit 1
+    puts '\n --> installing yarn with homebrew =='
+    system! 'brew install yarn'
+    system! 'yarn install'
   end
 end

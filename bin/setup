@@ -15,10 +15,19 @@ FileUtils.chdir APP_ROOT do
 
   puts '== Installing dependencies =='
   system! 'gem install bundler --conservative'
-  system('bundle check') || system!('bundle install')
+  unless system('bundle check')
+    if !system('which postgres')
+      puts "\n --> Postgres is needed to run this application. Attempting to install with homebrew"
 
-  # Install JavaScript dependencies
-  # system('bin/yarn')
+      system!('brew install postgresql')
+      system!('brew services start postgresql')
+    end
+
+    system!('bundle install')
+  end
+
+  puts '== Installing front-end dependencies =='
+  system('bin/yarn')
 
   # puts "\n== Copying sample files =="
   # unless File.exist?('config/database.yml')
@@ -26,12 +35,6 @@ FileUtils.chdir APP_ROOT do
   # end
 
   puts "\n== Preparing database =="
-
-  unless system('which postgres')
-    puts "\n --> Postgres is needed to run this application. Attempting to install with homebrew"
-
-    system!('brew install postgresql')
-  end
 
   system! 'bin/rails db:prepare'
 
