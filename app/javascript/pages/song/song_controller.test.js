@@ -1,4 +1,4 @@
-import { TrackController } from "./track_controller";
+import { SongController } from "./song_controller";
 
 class MockWaveformInstance {
   stopWasCalled = false;
@@ -18,11 +18,11 @@ class MockWaveformInstance {
   }
 }
 
-describe("TrackController", function () {
+describe("SongController", function () {
   let subject;
 
   beforeEach(function () {
-    subject = new TrackController();
+    subject = new SongController();
   });
 
   describe("when waveform instances have been registered", function () {

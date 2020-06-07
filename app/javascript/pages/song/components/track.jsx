@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import WaveSurfer from 'wavesurfer';
 
-export const Track = ({ track, play, onTrackLoaded, trackController }) => {
+export const Track = ({ track, play, onTrackLoaded, songController }) => {
   const containerClass = `waveform-${track.id}`;
 
   const [wavesurferInstance, setWavesurferInstance] = useState();
@@ -16,7 +16,7 @@ export const Track = ({ track, play, onTrackLoaded, trackController }) => {
     });
 
     setWavesurferInstance(wavesurfer);
-    trackController.register(wavesurfer)
+    songController.register(wavesurfer)
 
     wavesurfer.load(track.url)
   }, []);

@@ -1,4 +1,4 @@
-export class TrackController {
+export class SongController {
   constructor() {
     this.waveformInstances = [];
   }
@@ -24,4 +24,4 @@ export class TrackController {
   }
 }
 
-export const trackController = new TrackController();
+export const songController = new SongController();
