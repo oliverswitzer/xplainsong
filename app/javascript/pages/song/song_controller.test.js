@@ -4,7 +4,11 @@ class MockWaveformInstance {
   stopWasCalled = false;
   unAllWasCalled = false;
   playWasCalled = false;
+  addedEventListeners = [];
 
+  on(eventName, callback) {
+    this.addedEventListeners.push({ name: eventName, callback });
+  }
   stop() {
     this.stopWasCalled = true;
   }
@@ -16,6 +20,12 @@ class MockWaveformInstance {
   unAll() {
     this.unAllWasCalled = true;
   }
+
+  fireEventListenersFor(eventName) {
+    this.addedEventListeners
+      .filter((listener) => listener.name === eventName)
+      .forEach((listener) => listener.callback());
+  }
 }
 
 describe("SongController", function () {
@@ -25,7 +35,7 @@ describe("SongController", function () {
     subject = new SongController();
   });
 
-  describe("when waveform instances have been registered", function () {
+  describe("after waveform instances have been registered", function () {
     let mockWaveformInstance1;
     let mockWaveformInstance2;
 
@@ -35,6 +45,20 @@ describe("SongController", function () {
 
       subject.register(mockWaveformInstance1);
       subject.register(mockWaveformInstance2);
+    });
+
+    describe("onTrackLoaded", () => {
+      it("takes a callback that's passed loading percentage each time a track loads", function () {
+        const callbackSpy = jest.fn();
+
+        subject.onTrackLoaded(callbackSpy);
+
+        mockWaveformInstance1.fireEventListenersFor("ready");
+        mockWaveformInstance2.fireEventListenersFor("ready");
+
+        expect(callbackSpy).toHaveBeenNthCalledWith(1, 50);
+        expect(callbackSpy).toHaveBeenNthCalledWith(2, 100);
+      });
     });
 
     describe("play", function () {
@@ -73,7 +97,7 @@ describe("SongController", function () {
       it("resets array of waveformInstances", function () {
         subject.unsubscribe();
 
-        expect(subject.waveformInstances.length).toBe(0);
+        expect(subject.tracks.length).toBe(0);
       });
     });
   });

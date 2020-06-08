@@ -1,26 +1,42 @@
 export class SongController {
   constructor() {
-    this.waveformInstances = [];
+    this.tracks = [];
+    this.loadedTracks = 0;
   }
 
   register(wavesurferInstance) {
-    this.waveformInstances.push(wavesurferInstance);
+    wavesurferInstance.on("ready", () => {
+      this.loadedTracks += 1;
+
+      const currentPercentLoaded =
+        (this.loadedTracks / this.tracks.length) * 100;
+
+      this.onLoadCallback(currentPercentLoaded);
+    });
+
+    this.tracks.push({
+      wavesurferInstance,
+    });
+  }
+
+  onTrackLoaded(callback) {
+    this.onLoadCallback = callback;
   }
 
   stop() {
-    this.waveformInstances.forEach((instance) => instance.stop());
+    this.tracks.forEach((track) => track.wavesurferInstance.stop());
   }
 
   play() {
-    this.waveformInstances.forEach((instance) => instance.play());
+    this.tracks.forEach((track) => track.wavesurferInstance.play());
   }
 
   unsubscribe() {
-    this.waveformInstances.forEach((instance) => {
-      instance.stop();
-      instance.unAll();
+    this.tracks.forEach((track) => {
+      track.wavesurferInstance.stop();
+      track.wavesurferInstance.unAll();
     });
-    this.waveformInstances = [];
+    this.tracks = [];
   }
 }
 
