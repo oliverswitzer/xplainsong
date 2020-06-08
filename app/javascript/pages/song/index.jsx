@@ -4,78 +4,40 @@ import { useFetch } from "../../shared/hooks/use_fetch";
 import { Track } from "./components/track";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-function percentageOfLoadedTracks(trackStates, tracks) {
-  return (trackStates.filter((trackState) => trackState === "loaded")
-      .length /
-    tracks.length) *
-    100;
-}
-
 export default ({
   match: {
     params: { songId },
   },
-  songController
+  songController,
 }) => {
   const [trackStates, setTrackStates] = useState([]);
-  const [showTracks, setShowTracks] = useState(false);
+  const [loadingPercentage, setLoadingPercentage] = useState(0.0);
 
   useEffect(() => {
+    songController.onTrackLoaded((progress) => setLoadingPercentage(progress));
+
     return () => {
       songController.unsubscribe();
-    }
-  }, [])
+    };
+  }, []);
 
   const song = useFetch(async () => await SongGateway.find({ songId }));
-
-  useEffect(() => {
-    if (song) {
-      setTrackStates(new Array(song.tracks.length).fill("loading"));
-    }
-  }, [song]);
-
-  useEffect(() => {
-    if (trackStates.length > 0 && trackStates.every((state) => state === "loaded")) {
-      setShowTracks(true);
-    }
-  }, [trackStates]);
-
-  const handleOnTrackLoaded = (trackIndex) => {
-    // It is necessary to pass a function to setTrackStates so that we always
-    // have the latest version of trackStates. This was not happening by default,
-    // likely due to a stale closure reference to trackState whenever this function
-    // (handleOnTrackLoad) was called on each render.
-
-    setTrackStates(trackStates => {
-      const newTrackStates = [...trackStates];
-      newTrackStates[trackIndex] = 'loaded';
-
-      return newTrackStates
-    });
-  };
 
   return (
     song && (
       <>
         <h1>{song.title}</h1>
 
-        {!showTracks && (
-          <LinearProgress
-            variant="determinate"
-            value={percentageOfLoadedTracks(trackStates, song.tracks)}
-          />
+        {loadingPercentage !== 100 && (
+          <LinearProgress variant="determinate" value={loadingPercentage} />
         )}
-        <div style={showTracks ? {} : { display: "none" }}>
+        <div style={loadingPercentage === 100 ? {} : { display: "none" }}>
           <button onClick={() => songController.play()}>Play</button>
           <button onClick={() => songController.stop()}>Stop</button>
           <div>
             {song.tracks.map((track, trackIndex) => (
               <div key={track.id} data-test="track">
-                <Track
-                  songController={songController}
-                  onTrackLoaded={() => handleOnTrackLoaded(trackIndex)}
-                  track={track}
-                />
+                <Track songController={songController} track={track} />
               </div>
             ))}
           </div>

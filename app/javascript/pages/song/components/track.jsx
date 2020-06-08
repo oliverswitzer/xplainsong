@@ -1,38 +1,27 @@
-import React, { useEffect, useState } from "react";
-import WaveSurfer from 'wavesurfer';
+import React, { useEffect } from "react";
+import WaveSurfer from "wavesurfer";
 
-export const Track = ({ track, play, onTrackLoaded, songController }) => {
+export const Track = ({ track, songController }) => {
   const containerClass = `waveform-${track.id}`;
-
-  const [wavesurferInstance, setWavesurferInstance] = useState();
 
   useEffect(() => {
     const wavesurfer = WaveSurfer.create({
-      waveColor: '#65913b',
-      progressColor: '#7858a0',
+      waveColor: "#65913b",
+      progressColor: "#7858a0",
       container: `.${containerClass}`,
       scrollParent: true,
-      hideScrollbar: true
+      hideScrollbar: true,
     });
 
-    setWavesurferInstance(wavesurfer);
-    songController.register(wavesurfer)
+    songController.register(wavesurfer);
 
-    wavesurfer.load(track.url)
+    wavesurfer.load(track.url);
   }, []);
-
-  useEffect(() => {
-    if(wavesurferInstance) {
-      wavesurferInstance.on('ready', () => {
-        onTrackLoaded()
-      })
-    }
-  }, [wavesurferInstance]);
 
   return (
     <>
       <p>{track.name}</p>
-      <div className={containerClass}/>
+      <div className={containerClass} />
     </>
   );
 };
