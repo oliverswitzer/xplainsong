@@ -10,7 +10,6 @@ export default ({
   },
   songController,
 }) => {
-  const [trackStates, setTrackStates] = useState([]);
   const [loadingPercentage, setLoadingPercentage] = useState(0.0);
 
   useEffect(() => {
@@ -35,7 +34,7 @@ export default ({
           <button onClick={() => songController.play()}>Play</button>
           <button onClick={() => songController.stop()}>Stop</button>
           <div>
-            {song.tracks.map((track, trackIndex) => (
+            {song.tracks.map((track) => (
               <div key={track.id} data-test="track">
                 <Track songController={songController} track={track} />
               </div>

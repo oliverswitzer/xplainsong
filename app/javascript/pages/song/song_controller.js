@@ -14,6 +14,16 @@ export class SongController {
       this.onLoadCallback(currentPercentLoaded);
     });
 
+    wavesurferInstance.on("seek", () => {
+      const newTime = wavesurferInstance.getCurrentTime();
+
+      this.tracks.forEach((track) => {
+        track.wavesurferInstance.setDisabledEventEmissions(["seek"]);
+        track.wavesurferInstance.setCurrentTime(newTime);
+        track.wavesurferInstance.setDisabledEventEmissions([]);
+      });
+    });
+
     this.tracks.push({
       wavesurferInstance,
     });
