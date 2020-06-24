@@ -1,33 +1,5 @@
 import { SongController } from "./song_controller";
 
-class MockWaveformInstance {
-  stopWasCalled = false;
-  unAllWasCalled = false;
-  playWasCalled = false;
-  addedEventListeners = [];
-
-  on(eventName, callback) {
-    this.addedEventListeners.push({ name: eventName, callback });
-  }
-  stop() {
-    this.stopWasCalled = true;
-  }
-
-  play() {
-    this.playWasCalled = true;
-  }
-
-  unAll() {
-    this.unAllWasCalled = true;
-  }
-
-  fireEventListenersFor(eventName) {
-    this.addedEventListeners
-      .filter((listener) => listener.name === eventName)
-      .forEach((listener) => listener.callback());
-  }
-}
-
 describe("SongController", function () {
   let subject;
 
@@ -58,6 +30,23 @@ describe("SongController", function () {
 
         expect(callbackSpy).toHaveBeenNthCalledWith(1, 50);
         expect(callbackSpy).toHaveBeenNthCalledWith(2, 100);
+      });
+    });
+
+    describe("synchronizing tracks", function () {
+      describe("whenever one waveform's playhead is changed manually", function () {
+        beforeEach(function () {
+          mockWaveformInstance1.stubbedCurrentTime = 1.45;
+        });
+
+        it("changes all tracks playheads to the current playhead position", function () {
+          mockWaveformInstance1.fireEventListenersFor("seek");
+
+          expect(mockWaveformInstance1.setCurrentTimeWasCalled).toBe(true);
+          expect(mockWaveformInstance1.setCurrentTimeWasCalledWith).toBe(1.45);
+          expect(mockWaveformInstance2.setCurrentTimeWasCalled).toBe(true);
+          expect(mockWaveformInstance2.setCurrentTimeWasCalledWith).toBe(1.45);
+        });
       });
     });
 
@@ -102,3 +91,43 @@ describe("SongController", function () {
     });
   });
 });
+
+class MockWaveformInstance {
+  stopWasCalled = false;
+  unAllWasCalled = false;
+  playWasCalled = false;
+  addedEventListeners = [];
+  stubbedCurrentTime = null;
+  setCurrentTimeWasCalled = false;
+  setCurrentTimeWasCalledWith = null;
+
+  on(eventName, callback) {
+    this.addedEventListeners.push({ name: eventName, callback });
+  }
+  stop() {
+    this.stopWasCalled = true;
+  }
+
+  play() {
+    this.playWasCalled = true;
+  }
+
+  unAll() {
+    this.unAllWasCalled = true;
+  }
+
+  getCurrentTime() {
+    return this.stubbedCurrentTime;
+  }
+
+  setCurrentTime(value) {
+    this.setCurrentTimeWasCalled = true;
+    this.setCurrentTimeWasCalledWith = value;
+  }
+
+  fireEventListenersFor(eventName) {
+    this.addedEventListeners
+      .filter((listener) => listener.name === eventName)
+      .forEach((listener) => listener.callback());
+  }
+}
