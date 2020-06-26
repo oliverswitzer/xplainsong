@@ -42,9 +42,7 @@ describe("SongController", function () {
         it("changes all tracks playheads to the current playhead position", function () {
           mockWaveformInstance1.fireEventListenersFor("seek");
 
-          expect(mockWaveformInstance1.setCurrentTimeWasCalled).toBe(true);
           expect(mockWaveformInstance1.setCurrentTimeWasCalledWith).toBe(1.45);
-          expect(mockWaveformInstance2.setCurrentTimeWasCalled).toBe(true);
           expect(mockWaveformInstance2.setCurrentTimeWasCalledWith).toBe(1.45);
         });
       });
@@ -98,7 +96,6 @@ class MockWaveformInstance {
   playWasCalled = false;
   addedEventListeners = [];
   stubbedCurrentTime = null;
-  setCurrentTimeWasCalled = false;
   setCurrentTimeWasCalledWith = null;
 
   on(eventName, callback) {
@@ -130,4 +127,6 @@ class MockWaveformInstance {
       .filter((listener) => listener.name === eventName)
       .forEach((listener) => listener.callback());
   }
+
+  setDisabledEventEmissions(events) {}
 }
